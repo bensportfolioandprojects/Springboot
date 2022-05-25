@@ -39,12 +39,27 @@ public class UserController {
 		return new ResponseEntity<User>(service.getById(id), HttpStatus.OK);
 		
 	}
+//	Read from First Name
+	@GetMapping("/getByFirstName/{name}")
+	public ResponseEntity<List<User>> getByFirstName(@PathVariable String name) {
+		return new ResponseEntity<List<User>>(service.getByFirstName(name), HttpStatus.OK);
+	}
+	
+	//	Read from Last Name
+	@GetMapping("/getByLastName/{name}")
+	public ResponseEntity<List<User>> getByLastName(@PathVariable String name) {
+		return new ResponseEntity<List<User>>(service.getByLastName(name), HttpStatus.OK);
+	}
+    //	Read from First Name Starting With
+	@GetMapping("/getByFirstNameStartingWith/{name}")
+	public ResponseEntity<List<User>> getByFirstNameStartingWith(@PathVariable String name) {
+		return new ResponseEntity<List<User>>(service.getByFirstNameStartingWith(name), HttpStatus.OK);
+	}
 	
 	//	Create - Post
 	@PostMapping("/create")
 	public ResponseEntity<User> create (@RequestBody User user) {
 		return new ResponseEntity<User>(service.create(user), HttpStatus.CREATED);
-		
     }
 	
 	//	Update - Put/Patch
@@ -57,9 +72,8 @@ public class UserController {
 	//	Delete - Delete Request
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable long id) {
-		return new ResponseEntity<Boolean>(service.delete(id), HttpStatus.NO_CONTENT);
+		return service.delete(id) ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
 	}
-	
-
 }
 
